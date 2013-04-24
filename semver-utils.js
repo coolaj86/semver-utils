@@ -29,6 +29,21 @@
     return ver;
   }
 
+  function stringifySemver(obj) {
+    var str = '';
+    str += obj.major || '0';
+    str += '.';
+    str += obj.minor || '0';
+    str += '.';
+    str += obj.patch || '0';
+    if (obj.release) {
+      str += '-' + obj.release;
+    }
+    if (obj.build) {
+      str += '+' + obj.build;
+    }
+  }
+
   function parseSemverRange(str) {
     var m
       , arr = []
@@ -68,5 +83,6 @@
   }
 
   module.exports.parse = parseSemver;
+  module.exports.stringify = stringifySemver;
   module.exports.parseRange = parseSemverRange;
 }());
