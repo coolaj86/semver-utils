@@ -18,6 +18,8 @@ Turns a string such as `1.0.6-1+build-623` into the object
     , build:    'build-623'
     }
 
+returns `null` on **error**
+
 ### stringify(semverObject)
 
 Creates a string such as `1.0.6-1+build-623` from the object
