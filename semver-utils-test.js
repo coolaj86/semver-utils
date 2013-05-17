@@ -1,17 +1,39 @@
 (function () {
-  var semverutils = require('semver-utils')
+  var semverutils = require('./semver-utils')
     ;
 
   function testParseRange() {
-    var str = '~1.0.0 || >= 1.1.7 < 2.0.0+build.1848 || v1.1.3 || 2.0.1-alpha.1227 || 1.0.0 - 1.0.x'
+    console.info('testParseRange');
+    var good =
+        [ 'v1.0.0'
+        , '< v2.0.0'
+        , '~v2.0.0'
+        , '~1.0.0'
+        , '~1.0.0 || >= 1.1.7 < 2.0.0+build.1848'
+        , '~1.0.0 || >= 1.1.7 < 2.0.0+build.1848 || v1.1.3'
+        , '~1.0.0 || >= 1.1.7 < 2.0.0+build.1848 || v1.1.3 || 2.0.1-alpha.1227'
+        , '~1.0.0 || >= 1.1.7 < 2.0.0+build.1848 || v1.1.3 || 2.0.1-alpha.1227 || 1.0.0 - 1.0.x'
+        , '~1.0.0 || >= 1.1.7 < 2.0.0+build.1848 || v1.1.3 || 2.0.1-alpha.1227 || 1.0.0 - 1.0.x || 1.*'
+        ]
       ;
-    console.log(semverutils.parseRange(str));
-    console.log(semverutils.parseRange('v1.0.0'));
-    console.log(semverutils.parseRange('< v2.0.0'));
-    console.log(semverutils.parseRange('~v2.0.0'));
+
+    good.every(function (range) {
+      var result = semverutils.parseRange(range)
+        ;
+   
+      if (!result || 0 === result.length) {
+        throw new Error("didn't parse something that should be parseable: " + range);
+      }
+   
+      return true;
+    });
+
+    console.log(good[good.length - 1]);
+    console.log(semverutils.stringifyRange(semverutils.parseRange(good[good.length - 1])));
   }
 
   function testParse() {
+    console.info('testParse');
     var good
       , bad
       ;
@@ -43,7 +65,7 @@
     ];
    
     bad = [
-        "v1.0.0"
+      //  "v1.0.0" now allows optional 'v'
       , "a.b.c"
       , "1"
       , "1.0.0b"

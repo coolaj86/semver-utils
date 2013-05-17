@@ -1,8 +1,14 @@
 (function () {
   "use strict";
 
-  var reSemver = /^((\d+)\.(\d+)\.(\d+))(?:-([\dA-Za-z\-]+(?:\.[\dA-Za-z\-]+)*))?(?:\+([\dA-Za-z\-]+(?:\.[\dA-Za-z\-]+)*))?$/
-    , reSemverRange = /\s*((\|\||\-)|(([<>~]?=?)\s*(v)?([0-9]+)(\.(x|[0-9]+))?(\.(x|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
+  // TODO break these down into escaped strings with meaningful comments and create using new RegExp()
+  //               |optional 'v'
+  //               | | 3 segment version
+  //               | |                    |optional release prefixed by '-'
+  //               | |                    |                                        |optional build prefixed by '+'
+  var reSemver = /^v?((\d+)\.(\d+)\.(\d+))(?:-([\dA-Za-z\-]+(?:\.[\dA-Za-z\-]+)*))?(?:\+([\dA-Za-z\-]+(?:\.[\dA-Za-z\-]+)*))?$/
+    //, reSemverRange = /\s*((\|\||\-)|(([<>~]?=?)\s*(v)?([0-9]+)(\.(x|[0-9]+))?(\.(x|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
+    , reSemverRange = /\s*((\|\||\-)|(([<>~]?=?)\s*(v)?([0-9]+)(\.(x|\*|[0-9]+))?(\.(x|\*|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
     ;
 
   function parseSemver(version) {
@@ -83,7 +89,24 @@
     return arr;
   }
 
+  function stringifySemverRange(arr) {
+    var str = ''
+      ;
+
+    arr.forEach(function (ver) {
+      if (ver.operator) {
+        str += ver.operator + ' ';
+      }
+      if (ver.major) {
+        str += stringifySemver(ver) + ' ';
+      }
+    });
+  
+    return str.trim();
+  }
+
   module.exports.parse = parseSemver;
   module.exports.stringify = stringifySemver;
   module.exports.parseRange = parseSemverRange;
+  module.exports.stringifyRange = stringifySemverRange;
 }());

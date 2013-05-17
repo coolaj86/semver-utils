@@ -1,6 +1,6 @@
 {
   "name": "semver-utils",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Tools for manipulating semver strings and objects",
   "main": "semver-utils.js",
   "scripts": {
