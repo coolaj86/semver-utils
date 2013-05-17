@@ -38,7 +38,40 @@ A solution to <https://github.com/isaacs/node-semver/issues/10>
 
 Parses a range string into an array of semver objects
 
-`>= 1.1.7 < 2.0.0 || 1.1.3'` becomes
+`>= 1.1.7 < 2.0.0 || 1.1.3` becomes
+
+    [
+        {
+            "semver": ">= v1.1.7"
+          , "operator": ">="
+          , "major": 1
+          , "minor": 1
+          , "patch": 7
+        }
+      , {
+            "semver": "< v2.0.0"
+          , "operator": "<"
+          , "major": 2
+          , "minor": 0
+          , "patch": 0
+        }
+      , {
+            "operator": "||"
+        }
+      , {
+            "semver": "v1.1.3"
+          , "operator": "="
+          , "major": 1
+          , "minor": 1
+          , "patch": 3
+        }
+
+    ]
+
+### stringifyRange(rangeString)
+
+Creates a range string such as `>= 1.1.7 < 2.0.0 || 1.1.3`
+from an array of semver objects (and operators) such as
 
     [
         {
