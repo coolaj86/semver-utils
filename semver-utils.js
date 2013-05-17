@@ -42,6 +42,7 @@
     if (obj.build) {
       str += '+' + obj.build;
     }
+    return str;
   }
 
   function parseSemverRange(str) {
