@@ -68,7 +68,7 @@ Parses a range string into an array of semver objects
 
     ]
 
-### stringifyRange(rangeString)
+### stringifyRange(rangeArray)
 
 Creates a range string such as `>= 1.1.7 < 2.0.0 || 1.1.3`
 from an array of semver objects (and operators) such as
