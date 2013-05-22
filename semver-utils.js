@@ -11,32 +11,10 @@
     , reSemverRange = /\s*((\|\||\-)|(([<>~]?=?)\s*(v)?([0-9]+)(\.(x|\*|[0-9]+))?(\.(x|\*|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
     ;
 
-  function parseSemver(version) {
-    // semver, major, minor, patch
-    // https://github.com/mojombo/semver/issues/32
-    // https://github.com/isaacs/node-semver/issues/10
-    // optional v
-    var m = reSemver.exec(version) || []
-      , ver = {
-            semver: m[0]
-          , version: m[1]
-          , major: m[2]
-          , minor: m[3]
-          , patch: m[4]
-          , release: m[5]
-          , build: m[6]
-        }
-      ;
- 
-    if (0 === m.length) {
-      ver = null;
-    }
- 
-    return ver;
-  }
-
   function stringifySemver(obj) {
-    var str = '';
+    var str = ''
+      ;
+
     str += obj.major || '0';
     str += '.';
     str += obj.minor || '0';
@@ -49,6 +27,81 @@
       str += '+' + obj.build;
     }
     return str;
+  }
+
+  function stringifySemverRange(arr) {
+    var str = ''
+      ;
+
+    function stringify(ver) {
+      if (ver.operator) {
+        str += ver.operator + ' ';
+      }
+      if (ver.major) {
+        str += ver.toString() + ' ';
+      }
+    }
+
+    arr.forEach(stringify);
+  
+    return str.trim();
+  }
+
+  function SemVer(obj) {
+    if (!obj) {
+      return;
+    }
+
+    var me = this
+      ;
+
+    Object.keys(obj).forEach(function (key) {
+      me[key] = obj[key];
+    });
+  }
+  SemVer.prototype.toString = function () {
+    return stringifySemver(this);
+  };
+
+  /*
+  function SemVerRange(obj) {
+    if (!obj) {
+      return;
+    }
+
+    var me = this
+      ;
+
+    Object.keys(obj).forEach(function (key) {
+      me[key] = obj[key];
+    });
+  }
+  SemVerRange.prototype = [];
+  SemVerRange.prototype.toString = stringifySemverRange;
+  */
+
+  function parseSemver(version) {
+    // semver, major, minor, patch
+    // https://github.com/mojombo/semver/issues/32
+    // https://github.com/isaacs/node-semver/issues/10
+    // optional v
+    var m = reSemver.exec(version) || []
+      , ver = new SemVer({
+            semver: m[0]
+          , version: m[1]
+          , major: m[2]
+          , minor: m[3]
+          , patch: m[4]
+          , release: m[5]
+          , build: m[6]
+        })
+      ;
+ 
+    if (0 === m.length) {
+      ver = null;
+    }
+ 
+    return ver;
   }
 
   function parseSemverRange(str) {
@@ -82,27 +135,12 @@
         obj.release = m[13];
       }
       Object.keys(obj).forEach(prune);
-      arr.push(obj);
+      arr.push(new SemVer(obj));
       //console.log(m);
     }
  
+    //return new SemVerRange(arr);
     return arr;
-  }
-
-  function stringifySemverRange(arr) {
-    var str = ''
-      ;
-
-    arr.forEach(function (ver) {
-      if (ver.operator) {
-        str += ver.operator + ' ';
-      }
-      if (ver.major) {
-        str += stringifySemver(ver) + ' ';
-      }
-    });
-  
-    return str.trim();
   }
 
   module.exports.parse = parseSemver;
