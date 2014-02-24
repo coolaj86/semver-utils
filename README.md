@@ -2,9 +2,31 @@
 
 Some utils that aren't provided by the mainstream `semver` module.
 
+### Usage
+
+```bash
+npm install --save semver-utils
+```
+
+```javascript
+'use strict';
+
+var semverUtils = require('semver-utils')
+  , version = require('./package.json').version
+  , semver = semverUtils.parse(version)
+  ;
+  
+console.log(semver);
+```
+
 ## API
 
-### parse(semverString)
+  * semverUtils.parse(semverString)
+  * semverUtils.stringify(semverObject)
+  * semverUtils.parseRange(rangeString)
+  * semverUtils.stringifyRange(rangeArray)
+
+### semverUtils.parse(semverString)
 
 Turns a string such as `1.0.6-1+build-623` into the object
 
