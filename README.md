@@ -42,7 +42,7 @@ Turns a string such as `1.0.6-1+build-623` into the object
 
 returns `null` on **error**
 
-### stringify(semverObject)
+### semverUtils.stringify(semverObject)
 
 Creates a string such as `1.0.6-1+build-623` from the object
 
@@ -54,7 +54,7 @@ Creates a string such as `1.0.6-1+build-623` from the object
     , build:    'build-623'
     }
 
-### parseRange(rangeString)
+### semverUtils.parseRange(rangeString)
 
 A solution to <https://github.com/isaacs/node-semver/issues/10>
 
@@ -90,7 +90,7 @@ Parses a range string into an array of semver objects
 
     ]
 
-### stringifyRange(rangeArray)
+### semverUtils.stringifyRange(rangeArray)
 
 Creates a range string such as `>= 1.1.7 < 2.0.0 || 1.1.3`
 from an array of semver objects (and operators) such as
