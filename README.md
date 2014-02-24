@@ -21,10 +21,10 @@ console.log(semver);
 
 ## API
 
-  * semverUtils.parse(semverString)
-  * semverUtils.stringify(semverObject)
-  * semverUtils.parseRange(rangeString)
-  * semverUtils.stringifyRange(rangeArray)
+  * `semverUtils.parse(semverString)`
+  * `semverUtils.stringify(semverObject)`
+  * `semverUtils.parseRange(rangeString)`
+  * `semverUtils.stringifyRange(rangeArray)`
 
 ### semverUtils.parse(semverString)
 
