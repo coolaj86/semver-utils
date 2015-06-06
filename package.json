@@ -4,7 +4,7 @@
   "description": "Tools for manipulating semver strings and objects",
   "main": "semver-utils.js",
   "scripts": {
-    "test": "node semver-utils-test.js"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,10 @@
   ],
   "author": "AJ ONeal",
   "license": "APACHEv2",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "chai": "^3.0.0",
+    "deep-equal": "^1.0.0",
+    "mocha": "^2.2.5"
+  }
 }
