@@ -88,6 +88,16 @@ describe('parseRange', function() {
     }]);
   });
 
+  it('should parse caret', function() {
+    deepOwnEqual(semverutils.parseRange('^1.0.0'), [{
+      semver: '^1.0.0',
+      operator: '^',
+      major: '1',
+      minor: '0',
+      patch: '0'
+    }]);
+  });
+
   it('should parse tilde and v- prefix', function() {
     deepOwnEqual(semverutils.parseRange('~v1.0.0'), [{
       semver: '~v1.0.0',
