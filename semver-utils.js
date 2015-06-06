@@ -11,6 +11,18 @@
     , reSemverRange = /\s*((\|\||\-)|(([<>~]?=?)\s*(v)?([0-9]+)(\.(x|\*|[0-9]+))?(\.(x|\*|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
     ;
 
+  // Returns a new object with all of the undefined properties removed from the given object
+  function pruned(obj) {
+    var o = {};
+    for(var key in obj) {
+      if ('undefined' !== typeof obj[key]) {
+        o[key] = obj[key];
+      }
+    }
+    return o;
+  }
+
+
   function stringifySemver(obj) {
     var str = ''
       ;
@@ -86,7 +98,7 @@
     // https://github.com/isaacs/node-semver/issues/10
     // optional v
     var m = reSemver.exec(version) || []
-      , ver = new SemVer({
+      , ver = new SemVer(pruned({
             semver: m[0]
           , version: m[1]
           , major: m[2]
@@ -94,7 +106,7 @@
           , patch: m[4]
           , release: m[5]
           , build: m[6]
-        })
+        }))
       ;
  
     if (0 === m.length) {
@@ -110,12 +122,7 @@
       , obj
       ;
  
-    function prune(key) {
-      if ('undefined' === typeof obj[key]) {
-        delete obj[key];
-      }
-    }
- 
+
     while (true) {
       m = reSemverRange.exec(str);
       if (!m) {
@@ -134,8 +141,7 @@
       if ('-' === m[12]) {
         obj.release = m[13];
       }
-      Object.keys(obj).forEach(prune);
-      arr.push(new SemVer(obj));
+      arr.push(new SemVer(pruned(obj)));
       //console.log(m);
     }
  
