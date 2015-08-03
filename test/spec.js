@@ -136,6 +136,27 @@ describe('parseRange', function() {
     }]);
   });
 
+  it('should parse pre-release versions', function() {
+    deepOwnEqual(semverutils.parseRange('1.0.0-rc1'), [{
+      semver: '1.0.0-rc1',
+      major: '1',
+      minor: '0',
+      patch: '0',
+      release: 'rc1'
+    }]);
+  });
+
+  it('should parse pre-release versions with hyphens', function() {
+
+    deepOwnEqual(semverutils.parseRange('1.0.0-rc-2'), [{
+      semver: '1.0.0-rc-2',
+      major: '1',
+      minor: '0',
+      patch: '0',
+      release: 'rc-2'
+    }]);
+  });
+
   it('should parse hyphen ranges', function() {
     deepOwnEqual(semverutils.parseRange('1.0.0 - 1.0.x'), [{
       semver: '1.0.0',

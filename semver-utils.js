@@ -8,7 +8,7 @@
   //               | |                    |                                        |optional build prefixed by '+'
   var reSemver = /^v?((\d+)\.(\d+)\.(\d+))(?:-([\dA-Za-z\-]+(?:\.[\dA-Za-z\-]+)*))?(?:\+([\dA-Za-z\-]+(?:\.[\dA-Za-z\-]+)*))?$/
     //, reSemverRange = /\s*((\|\||\-)|(([<>~]?=?)\s*(v)?([0-9]+)(\.(x|[0-9]+))?(\.(x|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
-    , reSemverRange = /\s*((\|\||\-)|(([<>~^]?=?)\s*(v)?([0-9]+)(\.(x|\*|[0-9]+))?(\.(x|\*|[0-9]+))?(([\-+])([a-zA-Z0-9\.]+))?))\s*/g
+    , reSemverRange = /\s*((\|\||\-)|(([<>~^]?=?)\s*(v)?([0-9]+)(\.(x|\*|[0-9]+))?(\.(x|\*|[0-9]+))?(([\-+])([a-zA-Z0-9\.-]+))?))\s*/g
     ;
 
   // Returns a new object with all of the undefined properties removed from the given object
@@ -54,7 +54,7 @@
     }
 
     arr.forEach(stringify);
-  
+
     return str.trim();
   }
 
@@ -107,11 +107,11 @@
           , build: m[6]
         }))
       ;
- 
+
     if (0 === m.length) {
       ver = null;
     }
- 
+
     return ver;
   }
 
@@ -120,7 +120,7 @@
       , arr = []
       , obj
       ;
- 
+
 
     while (m = reSemverRange.exec(str)) {
       obj = {
@@ -139,7 +139,7 @@
       arr.push(new SemVer(pruned(obj)));
       //console.log(m);
     }
- 
+
     //return new SemVerRange(arr);
     return arr;
   }
